@@ -26,7 +26,7 @@ public class PlayerVideoChannel : MonoBehaviourPunCallbacks, IPunObservable
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (!photonView.IsMine) return;
-        if (!collision.CompareTag("Player") && agoraManager != null) return;
+        if (!collision.CompareTag("Player")) return;
 
         var remotePlayerVideo = collision.GetComponent<PlayerVideoChannel>();
         if (remotePlayerVideo.ChannelName == ChannelName) return;
@@ -47,8 +47,14 @@ public class PlayerVideoChannel : MonoBehaviourPunCallbacks, IPunObservable
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (!photonView.IsMine) return;
-        if (!collision.CompareTag("Player") && agoraManager != null) return;
-
+        if (!collision.CompareTag("Player")) return;
+		
+		var remotePlayerVideo = collision.GetComponent<PlayerVideoChannel>();
+		if(ChannelSize > 2)
+		{
+			agoraManager.RemoveUser((uint)remotePlayerVideo.ChannelId);
+		}
+		
         agoraManager.Leave();
         CreateNewChannel();
     }

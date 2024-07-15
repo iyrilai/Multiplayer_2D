@@ -62,6 +62,18 @@ public class AgoraManager : MonoBehaviour
         viewVideo.SetEnable(true);
         videos.Add(viewVideo);
     }
+	
+	public void RemoveUser(uint id)
+	{
+		 foreach (var video in videos)
+        {
+            if (video.ID == id)
+            {
+                videos.Remove(video);
+                return;
+            }
+        }
+	}	
 
     public void UserLeave(uint id)
     {
