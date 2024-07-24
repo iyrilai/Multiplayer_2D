@@ -50,9 +50,12 @@ public class PlayerVideoChannel : MonoBehaviourPunCallbacks, IPunObservable
         if (!collision.CompareTag("Player")) return;
 		
 		var remotePlayerVideo = collision.GetComponent<PlayerVideoChannel>();
+		
 		if(ChannelSize > 2)
 		{
 			agoraManager.RemoveUser((uint)remotePlayerVideo.ChannelId);
+			channelSize = agoraManager.ChannelSize;
+			return;
 		}
 		
         agoraManager.Leave();
